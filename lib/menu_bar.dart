@@ -139,18 +139,60 @@ class _MenuBarState extends State<MenuBar> {
       ),
     );
 
-    Icon icon;
+    Widget icon;
     if(item.id == selectedItem.id){
-      icon = Icon(
-        item.selectedIcon,
-        color: item.selectedColor,
-        size: widget.barHeight/10*6,
+      icon = Container(
+          decoration: BoxDecoration(
+            color: item.selectedIconBgColor,
+            shape: BoxShape.circle,
+            // boxShadow: [
+            //   BoxShadow(
+            //     color: Colors.black12,
+            //     blurRadius: 8,
+            //   )
+            // ],
+          ),
+          child: SizedBox.expand(
+            child: IconButton(
+              highlightColor: Colors.transparent,
+              splashColor: Colors.transparent,
+              padding: EdgeInsets.all(0),
+              alignment: Alignment(0, 0),
+              icon: Icon(
+                item.selectedIcon == null? item.icon: item.selectedIcon,
+                color: item.selectedIconColor == null ? item.iconColor : item.selectedIconColor,
+                size: widget.barHeight/10*6,
+              ),
+              onPressed: () => itemClicked(item),
+            ),
+          )
       );
     }else{
-      icon = Icon(
-        item.icon,
-        color: item.color,
-        size: widget.barHeight/10*6,
+      icon = Container(
+          decoration: BoxDecoration(
+            color: item.iconBgColor,
+            shape: BoxShape.circle,
+            // boxShadow: [
+            //   BoxShadow(
+            //     color: Colors.black12,
+            //     blurRadius: 8,
+            //   )
+            // ],
+          ),
+          child: SizedBox.expand(
+            child: IconButton(
+              highlightColor: Colors.transparent,
+              splashColor: Colors.transparent,
+              padding: EdgeInsets.all(0),
+              alignment: Alignment(0, 0),
+              icon: Icon(
+                item.icon,
+                color: item.iconColor,
+                size: widget.barHeight/10*6,
+              ),
+              onPressed: () => itemClicked(item),
+            ),
+          )
       );
     }
     Widget iconWidget = InkWell(
@@ -176,28 +218,7 @@ class _MenuBarState extends State<MenuBar> {
                   shape: BoxShape.circle,
                 ),
                 child: Center(
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: widget.barColor,
-                      shape: BoxShape.circle,
-                      // boxShadow: [
-                      //   BoxShadow(
-                      //     color: Colors.black12,
-                      //     blurRadius: 8,
-                      //   )
-                      // ],
-                    ),
-                    child: SizedBox.expand(
-                      child: IconButton(
-                        highlightColor: Colors.transparent,
-                        splashColor: Colors.transparent,
-                        padding: EdgeInsets.all(0),
-                        alignment: Alignment(0, 0),
-                        icon: icon,
-                        onPressed: () => itemClicked(item),
-                      ),
-                    ),
-                  ),
+                  child: icon,
                 ),
               ),
               item.badge != null

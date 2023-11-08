@@ -52,10 +52,16 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
       ),
       bottomNavigationBar: Bar.MenuBar(
         items: [
-          BarItem(id:1,label: "test1", icon: Icons.access_alarm, selectedIcon: Icons.ac_unit, color: Colors.white, selectedColor: Colors.red),
-          BarItem(id:2,label: "test2", icon: Icons.access_alarm, selectedIcon: Icons.ac_unit, color: Colors.white, selectedColor: Colors.red),
-          BarItem(id:3,label: "test3", icon: Icons.access_alarm, selectedIcon: Icons.ac_unit, color: Colors.white, selectedColor: Colors.red),
-          BarItem(id:4, label: "test4", icon: Icons.access_alarm, selectedIcon: Icons.ac_unit, color: Colors.white, selectedColor: Colors.red, badge: Text("2")),
+          BarItem(id:1,label: "test1",
+              icon: Icons.access_alarm,
+              iconBgColor: Colors.green,
+              iconColor: Colors.white,
+            selectedIconColor: Colors.green,
+            selectedIconBgColor: Colors.white
+          ),
+          BarItem(id:2,label: "test2", icon: Icons.access_alarm, iconBgColor: Colors.green, selectedIcon: Icons.ac_unit, iconColor: Colors.white, selectedIconColor: Colors.red),
+          BarItem(id:3,label: "test3", icon: Icons.access_alarm,iconBgColor: Colors.green, selectedIcon: Icons.ac_unit, iconColor: Colors.white, selectedIconColor: Colors.red),
+          BarItem(id:4, label: "test4", icon: Icons.access_alarm, iconBgColor: Colors.green,selectedIcon: Icons.ac_unit, iconColor: Colors.white, selectedIconColor: Colors.red, badge: Text("2")),
         ],
         selectedIndex: 2,
         barColor: Colors.green,
