@@ -37,7 +37,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-    controller = TabController(length: 4, vsync: this);
+    controller = TabController(length: 2, vsync: this);
   }
 
   @override
@@ -53,20 +53,23 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
       bottomNavigationBar: Bar.MenuBar(
         items: [
           BarItem(id:1,label: "test1",
-              icon: Icons.access_alarm,
+              icon: Icon(Icons.ac_unit, color: Colors.white),
               iconBgColor: Colors.green,
-              iconColor: Colors.white,
-            selectedIconColor: Colors.green,
-            selectedIconBgColor: Colors.white
+              selectedIcon: Icon(Icons.access_alarm, color: Colors.green,),
+              selectedIconBgColor: Colors.white,
           ),
-          BarItem(id:2,label: "test2", icon: Icons.access_alarm, iconBgColor: Colors.green, selectedIcon: Icons.ac_unit, iconColor: Colors.white, selectedIconColor: Colors.red),
-          BarItem(id:3,label: "test3", icon: Icons.access_alarm,iconBgColor: Colors.green, selectedIcon: Icons.ac_unit, iconColor: Colors.white, selectedIconColor: Colors.red),
-          BarItem(id:4, label: "test4", icon: Icons.access_alarm, iconBgColor: Colors.green,selectedIcon: Icons.ac_unit, iconColor: Colors.white, selectedIconColor: Colors.red, badge: Text("2")),
+          BarItem(id:2,label: "test2",
+              icon: Icon(Icons.ac_unit),
+              iconBgColor: Colors.white,
+              selectedIcon: Icon(Icons.access_alarm),
+              selectedIconBgColor: Colors.green,
+          ),
+
         ],
-        selectedIndex: 2,
+        selectedIndex: 1,
         barColor: Colors.green,
         barHeight: 70,
-        onClick: (item) {
+        onClick: (item, index) {
           controller.index = item.id-1;
         },
         translationFunc: (key) {
@@ -79,8 +82,6 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
         children: <Widget>[
           ExamplePage(title: "Dashboard Page",),
           ExamplePage(title: "Home Page", ),
-          ExamplePage(title: "Profile Page", ),
-          ExamplePage(title: "Settings Page",),
         ],
       ),
     );

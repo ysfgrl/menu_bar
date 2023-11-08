@@ -3,7 +3,7 @@ library menu_bar;
 import 'package:flutter/material.dart';
 import 'package:menu_bar/models.dart';
 
-typedef BarCallBack = void Function(BarItem item);
+typedef BarCallBack = void Function(BarItem item, int index);
 typedef TranslationFunc = String Function(String key);
 
 String _DefaultTranslation(String key){
@@ -86,13 +86,12 @@ class _MenuBarState extends State<MenuBar> {
   }
 
   void itemClicked(BarItem item){
-
     setState(() {
       selectedItem = item;
       // _initAnimationAndStart(_positionAnimation.value, position);
     });
     if(widget.onClick != null){
-      widget.onClick!(item);
+      widget.onClick!(item, widget.items.indexOf(item));
     }
   }
 
@@ -158,11 +157,7 @@ class _MenuBarState extends State<MenuBar> {
               splashColor: Colors.transparent,
               padding: EdgeInsets.all(0),
               alignment: Alignment(0, 0),
-              icon: Icon(
-                item.selectedIcon == null? item.icon: item.selectedIcon,
-                color: item.selectedIconColor == null ? item.iconColor : item.selectedIconColor,
-                size: widget.barHeight/10*6,
-              ),
+              icon: item.selectedIcon != null? item.selectedIcon! : item.icon,
               onPressed: () => itemClicked(item),
             ),
           )
@@ -185,11 +180,7 @@ class _MenuBarState extends State<MenuBar> {
               splashColor: Colors.transparent,
               padding: EdgeInsets.all(0),
               alignment: Alignment(0, 0),
-              icon: Icon(
-                item.icon,
-                color: item.iconColor,
-                size: widget.barHeight/10*6,
-              ),
+              icon: item.icon,
               onPressed: () => itemClicked(item),
             ),
           )
