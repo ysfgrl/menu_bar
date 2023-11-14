@@ -1,7 +1,9 @@
 library menu_bar;
 
 import 'package:flutter/material.dart';
+import 'package:menu_bar/controller.dart';
 import 'package:menu_bar/models.dart';
+import 'package:provider/provider.dart';
 
 typedef BarCallBack = void Function(BarItem item, int index);
 typedef TranslationFunc = String Function(String key);
@@ -11,8 +13,7 @@ String _DefaultTranslation(String key){
 }
 
 class MenuBar extends StatefulWidget{
-  int selectedIndex = 0;
-  List<BarItem> items;
+  final MenuBarController controller;
   final Color? barColor;
   final double barHeight;
   final BarCallBack? onClick;
@@ -20,11 +21,11 @@ class MenuBar extends StatefulWidget{
   final AnimationType animationType;
   final TranslationFunc translationFunc;
   MenuBar({
-    required this.items,
-    required this.selectedIndex,
-    required this.barHeight,
+    required this.controller,
+    required
     this.barColor,
     this.onClick,
+    this.barHeight = 50,
     this.animationType = AnimationType.top,
     this.duration = 300,
     this.translationFunc = _DefaultTranslation
@@ -36,73 +37,64 @@ class MenuBar extends StatefulWidget{
 }
 
 class _MenuBarState extends State<MenuBar> {
-
-  late BarItem selectedItem;
-  double fabIconAlpha = 1;
   @override
   void initState() {
-    selectedItem = widget.items[widget.selectedIndex];
-  }
-
-  @override
-  void didUpdateWidget(covariant MenuBar oldWidget) {
-    super.didUpdateWidget(oldWidget);
 
   }
 
   @override
   Widget build(BuildContext context) {
 
-    return Container(
-      decoration: BoxDecoration(
-        color: widget.barColor,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black12,
-            offset: Offset(0, -1),
-            blurRadius: 5,
-          ),
-        ],
-      ),
-      child: SafeArea(
-        child: Stack(
-          alignment: Alignment.topCenter,
-          children: <Widget>[
-            Container(
-              height: widget.barHeight,
-              decoration: BoxDecoration(
-                color: widget.barColor,
-              ),
-              child: Row(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: getTabList(),
-              ),
-            ),
-          ],
-        ),
-      ),
+    return ChangeNotifierProvider<MenuBarController>(
+        create: (context) => widget.controller,
+      builder: (context, child) {
+        return Consumer<MenuBarController>(
+            builder: (context, controller, child) {
+              return Container(
+                decoration: BoxDecoration(
+                  color: widget.barColor,
+                  boxShadow: const [
+                    BoxShadow(
+                      color: Colors.black12,
+                      offset: Offset(0, -1),
+                      blurRadius: 5,
+                    ),
+                  ],
+                ),
+
+                child: SafeArea(
+                  child: Stack(
+                    alignment: Alignment.topCenter,
+                    children: <Widget>[
+                      Container(
+                        height: widget.barHeight,
+                        decoration: BoxDecoration(
+                          color: widget.barColor,
+                        ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.max,
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: controller.getItems().map((e) => buildTab(e, controller.selectedItem)).toList(),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            },
+        );
+      },
     );
   }
 
   void itemClicked(BarItem item){
-    setState(() {
-      selectedItem = item;
-      // _initAnimationAndStart(_positionAnimation.value, position);
-    });
+    widget.controller.selectedItem = item;
     if(widget.onClick != null){
-      widget.onClick!(item, widget.items.indexOf(item));
+      widget.onClick!(widget.controller.selectedItem, widget.controller.index);
     }
   }
 
-  List<Widget> getTabList(){
-    List<Widget> tabs = [];
-    widget.items.forEach((element) {
-      tabs.add(buildTab(element));
-    });
-    return tabs;
-  }
-  Widget buildTab(BarItem item){
+  Widget buildTab(BarItem item, BarItem selectedItem){
     Alignment labelAlign;
     if(widget.animationType == AnimationType.top){
       if(selectedItem.id == item.id){

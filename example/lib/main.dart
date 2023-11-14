@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:menu_bar/menu_bar.dart' as Bar;
 import 'package:menu_bar/models.dart';
+import 'package:menu_bar/Controller.dart';
 void main() {
   runApp(const MyApp());
 }
@@ -34,10 +35,28 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
 
   late TabController controller;
+  late MenuBarController  menuBarController;
   @override
   void initState() {
     super.initState();
     controller = TabController(length: 2, vsync: this);
+    menuBarController = MenuBarController(
+        initialIndex: 1,
+        items: [
+          BarItem(id:1,label: "test1",
+            icon: const Icon(Icons.ac_unit, color: Colors.white),
+            iconBgColor: Colors.green,
+            selectedIcon: const Icon(Icons.access_alarm, color: Colors.green,),
+            selectedIconBgColor: Colors.white,
+          ),
+          BarItem(id:2,label: "test2",
+            icon: const Icon(Icons.ac_unit),
+            iconBgColor: Colors.white,
+            selectedIcon: const Icon(Icons.access_alarm),
+            selectedIconBgColor: Colors.green,
+          ),
+        ]
+    );
   }
 
   @override
@@ -51,22 +70,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
         title: Text(widget.title!),
       ),
       bottomNavigationBar: Bar.MenuBar(
-        items: [
-          BarItem(id:1,label: "test1",
-              icon: Icon(Icons.ac_unit, color: Colors.white),
-              iconBgColor: Colors.green,
-              selectedIcon: Icon(Icons.access_alarm, color: Colors.green,),
-              selectedIconBgColor: Colors.white,
-          ),
-          BarItem(id:2,label: "test2",
-              icon: Icon(Icons.ac_unit),
-              iconBgColor: Colors.white,
-              selectedIcon: Icon(Icons.access_alarm),
-              selectedIconBgColor: Colors.green,
-          ),
-
-        ],
-        selectedIndex: 1,
+        controller: menuBarController,
         barColor: Colors.green,
         barHeight: 70,
         onClick: (item, index) {
@@ -84,6 +88,12 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
           ExamplePage(title: "Home Page", ),
         ],
       ),
+      floatingActionButton: FloatingActionButton(onPressed: () {
+        setState(() {
+          menuBarController.index = 0;
+          controller.index = 0;
+        });
+      },),
     );
   }
 }
