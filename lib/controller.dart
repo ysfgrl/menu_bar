@@ -29,9 +29,11 @@ class MenuBarController extends ChangeNotifier{
 
   void setId(int id){
     for (final (index, item) in _items.indexed) {
-      _index = index;
-      notifyListeners();
-      break;
+      if(item.id == id) {
+        _index = index;
+        notifyListeners();
+        break;
+      }
     }
   }
 
