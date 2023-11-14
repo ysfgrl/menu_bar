@@ -9,32 +9,38 @@ class MenuBarController extends ChangeNotifier{
     required List<BarItem> items,
   }) : assert(initialIndex >= 0),
         assert(items.isNotEmpty && initialIndex < items.length),
-        _items = items, _index = initialIndex,
-        _selectedItem = items[initialIndex];
+        _items = items, _index = initialIndex;
 
   late List<BarItem> _items;
   BarItem getItem(int index) => _items[index];
   List<BarItem> getItems() => _items;
 
-  BarItem _selectedItem;
-  BarItem get selectedItem => _selectedItem;
-  set selectedItem(BarItem item){
-    _index = _items.indexOf(item);
-    _selectedItem= item;
-    notifyListeners();
+
+  BarItem getSelectedItem(){
+    return _items[_index];
   }
 
   int get index => _index;
   int _index;
   set index(int value) {
-    _selectedItem = _items[value];
     _index = value;
     notifyListeners();
+  }
+
+  void setId(int id){
+    for (final (index, item) in _items.indexed) {
+      _index = index;
+      notifyListeners();
+      break;
+    }
   }
 
   void updateItems(List<BarItem> items){
     if(_items.length != items.length){
       _items = items;
+      if(_index >= _items.length){
+        _index = 0;
+      }
       notifyListeners();
     }
   }

@@ -74,7 +74,7 @@ class _MenuBarState extends State<MenuBar> {
                         child: Row(
                           mainAxisSize: MainAxisSize.max,
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: controller.getItems().map((e) => buildTab(e, controller.selectedItem)).toList(),
+                          children: controller.getItems().map((e) => buildTab(e, controller.getSelectedItem())).toList(),
                         ),
                       ),
                     ],
@@ -88,9 +88,9 @@ class _MenuBarState extends State<MenuBar> {
   }
 
   void itemClicked(BarItem item){
-    widget.controller.selectedItem = item;
+    widget.controller.setId(item.id);
     if(widget.onClick != null){
-      widget.onClick!(widget.controller.selectedItem, widget.controller.index);
+      widget.onClick!(widget.controller.getSelectedItem(), widget.controller.index);
     }
   }
 
