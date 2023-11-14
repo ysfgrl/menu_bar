@@ -12,7 +12,7 @@ class MenuBarController extends ChangeNotifier{
         _items = items, _index = initialIndex,
         _selectedItem = items[initialIndex];
 
-  final List<BarItem> _items;
+  late List<BarItem> _items;
   BarItem getItem(int index) => _items[index];
   List<BarItem> getItems() => _items;
 
@@ -31,5 +31,13 @@ class MenuBarController extends ChangeNotifier{
     _index = value;
     notifyListeners();
   }
+
+  void updateItems(List<BarItem> items){
+    if(_items.length != items.length){
+      _items = items;
+      notifyListeners();
+    }
+  }
+
 
 }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:menu_bar/menu_bar.dart' as Bar;
 import 'package:menu_bar/models.dart';
-import 'package:menu_bar/Controller.dart';
+import 'package:menu_bar/controller.dart';
 void main() {
   runApp(const MyApp());
 }
